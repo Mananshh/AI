@@ -20,6 +20,8 @@ def wishme(name):
     else:
          speak("Good Evening {name}")
 
+def checkpass():
+    ...
 
 def speak(audio):
     print(audio)

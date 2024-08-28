@@ -2,6 +2,8 @@ import cv2
 import os
 import face_recognition as frm
 import pickle
+import numpy as np
+import cvzone
 
 
 '''
@@ -56,7 +58,16 @@ while True:
     for encodeFace, faceLoc in zip(encodeCurrFrame, faceCurFrame):
           matches = frm.compare_faces(encodeListKnown, encodeFace)
           Face_Distance = frm.face_distance(encodeListKnown, encodeFace)
-          
+
+          matchIndex = np.argmin(Face_Distance)
+         
+          if matches[matchIndex]:
+                # print(studentIds[matchIndex])
+                y1 , x2 , y2, x1 = faceLoc
+                y1 , x2 , y2, x1 = y1*4 , x2*4 , y2*4, x1*4
+                bbox = 55+x1, 162+y1 , x2-x1, y2-y1
+                bkground = cvzone.cornerRect(bkground, bbox , rt=0)
+
 
     cv2.imshow("Face attendance", bkground)
     cv2.waitKey(1)

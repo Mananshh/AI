@@ -20,6 +20,8 @@ def wishme(name):
     else:
          speak("Good Evening {name}")
 
+def checkpass():
+    ...
 
 def speak(audio):
     print(audio)
@@ -35,7 +37,7 @@ def input_voice():
     r = sr.Recognizer()
     with sr.Microphone as source:
         print("Listening....")
-        r.pause_threshold = 1.0
+        r.pause_threshold = 1 
         audio = r.listen(source)
 
     try:
@@ -69,9 +71,9 @@ def acc_check():
 
     except (Exception , IndexError):
         speak("No user found , Creating Account")
-        speak("Please type in your name")
-        # name = input_voice()
-        name = input("name: ")
+        speak("Please tell me your name")
+        #name = input_voice()
+        name = input("name ")
         speak(f"Hello, {name} ,please enter your email, you're gonna have to type this one.")
         email = input("Enter Email here: ")
         if input_email(email):
@@ -93,12 +95,12 @@ acc_check()
 
 while True:
     try:
-     #   query = input("query: ")
-       query = input_voice()
+       query = input("query")
+       #query = input_voice.lower()
     except Exception as e:
          speak(f"Uh oh, {e} found")
          break
-    if "create" in query:
+    if "create profile" in query:
          with open("data.csv" , "r") as file:
               '''reader = csv.DictReader(file)
               rows = [r for r in reader]

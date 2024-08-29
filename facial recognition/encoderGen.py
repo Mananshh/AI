@@ -7,11 +7,11 @@ from firebase_admin import credentials
 from firebase_admin import db
 from firebase_admin import  storage
 
-# cred = credentials.Certificate("serviceAccountKey.json")
-# firebase_admin.initialize_app(cred, {
-#     'databaseURL': "",
-#     'storageBucket': ""
-# })
+cred = credentials.Certificate(r"C:\Users\Storm\After Hours(Python)\facial recognition\serviceAccountKey.json")
+firebase_admin.initialize_app(cred, {
+    'databaseURL' :"https://facerecognition-17636-default-rtdb.firebaseio.com/",
+    'storageBucket': "facerecognition-17636.appspot.com"
+})
 
 
 # Importing student images
@@ -28,6 +28,14 @@ for path in pathList:
     # bucket = storage.bucket()
     # blob = bucket.blob(fileName)
     # blob.upload_from_filename(fileName)
+
+    fileName = f'{folderPath}/{path}'
+    bucket = storage.bucket()
+    blob = bucket.blob(fileName)
+    blob = blob.upload_from_filename(fileName)
+    '''
+    This adds the images to the database 
+    '''
 
 
     # print(path)

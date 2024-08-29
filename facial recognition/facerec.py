@@ -4,8 +4,16 @@ import face_recognition as frm
 import pickle
 import numpy as np
 import cvzone
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import db
+from firebase_admin import  storage
 
-
+cred = credentials.Certificate(r"C:\Users\Storm\After Hours(Python)\facial recognition\serviceAccountKey.json")
+firebase_admin.initialize_app(cred, {
+    'databaseURL' :"https://facerecognition-17636-default-rtdb.firebaseio.com/",
+    'storageBucket': "facerecognition-17636.appspot.com"
+})
 '''
 The following adds the webacam to the function
 '''
@@ -36,10 +44,13 @@ def find_encodings(imagelist):
     return encodelist
 
 encodingListKnown = find_encodings(image_in_mode)
-
 file = open(r'C:\Users\Storm\After Hours(Python)\facial recognition\EncodeFile.p' , 'rb')
 encodeListKnownWithIds = pickle.load(file)
 encodeListKnown, studentIds = encodeListKnownWithIds
+
+modeType = 0
+counter = 1
+id = 'Manansh'
 
 while True:
     success, img = cap.read()
@@ -52,7 +63,7 @@ while True:
 
 
     bkground[162: 162+480, 55 : 55+640] = img #Cooridinates found by self, attaches the webcam to the window
-    bkground[44:44 + 633, 808 : 808 + 414] = image_in_mode[0]
+    bkground[44:44 + 633, 808 : 808 + 414] = image_in_mode[modeType]
 #     cv2.imshow("Vision" , img)
         
     for encodeFace, faceLoc in zip(encodeCurrFrame, faceCurFrame):
@@ -62,16 +73,28 @@ while True:
           matchIndex = np.argmin(Face_Distance)
          
           if matches[matchIndex]:
-                # print(studentIds[matchIndex])
+                print(studentIds[matchIndex])
                 y1 , x2 , y2, x1 = faceLoc
                 y1 , x2 , y2, x1 = y1*4 , x2*4 , y2*4, x1*4
                 bbox = 55+x1, 162+y1 , x2-x1, y2-y1
                 bkground = cvzone.cornerRect(bkground, bbox , rt=0)
-
-
+                id1 = studentIds[matchIndex]
+          if counter == 0:
+                    counter == 1
+                    modeType==1
+    if counter != 0:
+        
+        if counter == 1:
+            studentInfo = db.reference(f'Students/{id}').get()
+            print(studentInfo)
+   
+            cv2.putText(bkground, str(studentInfo['logins']),(816,125), cv2.FONT_HERSHEY_COMPLEX ,1 ,(0,0,0),1)
+            cv2.putText(bkground, str(studentInfo['name']) , (808, 445) , cv2.FONT_HERSHEY_COMPLEX ,1 , (255,255,255) , 1 )
+            cv2.putText(bkground, str(studentInfo['position']),(1086,493) , cv2.FONT_HERSHEY_COMPLEX , 1 ,(255,255,255), 1)
+            
+    
+    print("Counter = ", counter)
     cv2.imshow("Face attendance", bkground)
+    
     cv2.waitKey(1)
-
-
-
 

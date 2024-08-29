@@ -78,7 +78,7 @@ while True:
                 y1 , x2 , y2, x1 = y1*4 , x2*4 , y2*4, x1*4
                 bbox = 55+x1, 162+y1 , x2-x1, y2-y1
                 bkground = cvzone.cornerRect(bkground, bbox , rt=0)
-                id1 = studentIds[matchIndex]
+                id = studentIds[matchIndex]
           if counter == 0:
                     counter == 1
                     modeType==1
@@ -88,8 +88,8 @@ while True:
             studentInfo = db.reference(f'Students/{id}').get()
             print(studentInfo)
    
-            cv2.putText(bkground, str(studentInfo['logins']),(816,125), cv2.FONT_HERSHEY_COMPLEX ,1 ,(0,0,0),1)
-            cv2.putText(bkground, str(studentInfo['name']) , (808, 445) , cv2.FONT_HERSHEY_COMPLEX ,1 , (255,255,255) , 1 )
+            cv2.putText(bkground, str(studentInfo['logins']),(816,125), cv2.FONT_HERSHEY_COMPLEX ,1 ,(0,0,0), 1)
+            cv2.putText(bkground, str(studentInfo['name']) , (808, 445) , cv2.FONT_HERSHEY_COMPLEX ,1 , (0,0,0) , 1 )
             cv2.putText(bkground, str(studentInfo['position']),(1086,493) , cv2.FONT_HERSHEY_COMPLEX , 1 ,(255,255,255), 1)
             
     

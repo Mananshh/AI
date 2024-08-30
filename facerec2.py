@@ -50,7 +50,7 @@ encodeListKnown, studentIds = encodeListKnownWithIds
 
 modeType = 0
 counter = 0
-id = -1
+id = 0
 
 while True:
     success, img = cap.read()
@@ -73,28 +73,8 @@ while True:
           matchIndex = np.argmin(Face_Distance)
          
           if matches[matchIndex]:
-                print(studentIds[matchIndex])
-                y1 , x2 , y2, x1 = faceLoc
-                y1 , x2 , y2, x1 = y1*4 , x2*4 , y2*4, x1*4
-                bbox = 55+x1, 162+y1 , x2-x1, y2-y1
-                bkground = cvzone.cornerRect(bkground, bbox , rt=0)
-                id = studentIds[matchIndex]
-                if counter == 0:
-                    counter += 1
-                    modeType+=1
-    if counter != 0:
-        
-        if counter == 1:
-            studentInfo = db.reference(f'Students/{id}').get()
-            print(studentInfo)
-   
-            # cv2.putText(bkground, str(studentInfo['logins']),(861,125), cv2.FONT_HERSHEY_COMPLEX ,1 ,(255,255,255), 1)
-            cv2.putText(bkground, str(studentInfo['name']) , (808, 445) , cv2.FONT_HERSHEY_COMPLEX ,1 , (255,255,255) , 1 )
-            cv2.putText(bkground, str(studentInfo['position']),(1086,493) , cv2.FONT_HERSHEY_COMPLEX , 1 ,(255,255,255), 1)
-            
-    
-    print("Counter = ", counter)
-    cv2.imshow("Face attendance", bkground)
-    
-    cv2.waitKey(1)
-
+                studentInfo = db.reference(f'Students/{id}').get()
+                print(f"Good morning ")
+          
+    break
+          

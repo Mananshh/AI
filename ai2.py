@@ -3,8 +3,6 @@ import pyaudio
 import pyttsx3
 import cv2
 
-class Face_rec:
-     ...
 
 def speak(audio):
         print(audio)

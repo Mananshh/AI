@@ -9,5 +9,5 @@ firebase_admin.initialize_app(cred, {
     'storageBucket': "facerecognition-17636.appspot.com"
 })
 
-studentInfo = db.reference(f'Students/{1}').get()
-print(studentInfo)
+studentInfo = db.reference(f'Students').get()
+print(studentInfo[''])

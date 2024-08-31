@@ -8,6 +8,57 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 from firebase_admin import  storage
+import speech_recognition as sr
+import pyaudio
+import pyttsx3
+import cv2
+import datetime
+
+#
+
+
+def speak(audio):
+        print(audio)
+        engine = pyttsx3.init('sapi5') 
+        voices= engine.getProperty('voices') 
+        engine.setProperty('voice', voices[0].id)
+        engine.say(audio)
+        engine.runAndWait()
+
+
+def input_audio():
+    recognizer = sr.Recognizer()
+    with sr.Microphone() as source:
+        speak("Speak now...")
+        recognizer.pause_threshold = 1.0
+        audio = recognizer.listen(source)
+
+    try:
+        text = recognizer.recognize_google(audio)
+        print("You said: " + text)
+        return text.lower()
+    except sr.UnknownValueError:
+        speak("Sorry, I could not understand the audio")
+        return 404
+    except sr.RequestError:
+        speak("Unable to understand")
+        return 404
+
+# while True:
+#     try:
+#         query = input_audio()
+#         if "testing" in query:
+#              speak("Test completed.")
+
+#     except Exception as e:
+#          speak(e)
+#          break
+def initialize():
+    while True:
+            query  = input_audio()
+            if "testing" in query:
+                 speak("Test compelete")
+            break
 
 cred = credentials.Certificate(r"C:\Users\Storm\After Hours(Python)\facial recognition\serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
@@ -34,6 +85,23 @@ for path in modepath:
 '''
 Added all the images in the mode file to a list
 '''
+
+def wishme(name):
+    hour = int(datetime.datetime.now().hour)
+    if 0<= hour < 12:
+         speak(f"Good Evening {name}")
+    elif 12<= hour <= 18:
+         speak("Good Afternoon {name}")
+    else:
+         speak("Good Evening {name}")
+
+def functions():
+     while True:
+          query = input_audio()
+          #Add all functions here
+          
+
+
 
 def find_encodings(imagelist):
     encodelist =[]
@@ -72,9 +140,11 @@ while True:
 
           matchIndex = np.argmin(Face_Distance)
          
-          if matches[matchIndex]:
+          if  not matches[matchIndex]:
                 studentInfo = db.reference(f'Students/{id}').get()
-                print(f"Good morning ")
+                name = str(studentInfo['name'])
+                
+                # speak(f"Good morning ")
+                # initialize()
           
-    break
-          
+    

@@ -13,8 +13,9 @@ import pyaudio
 import pyttsx3
 import cv2
 import datetime
-
-#
+import sounddevice as sd
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
+from langchain_community.llms import Ollama
 
 
 def speak(audio):
@@ -29,7 +30,7 @@ def speak(audio):
 def input_audio():
     recognizer = sr.Recognizer()
     with sr.Microphone() as source:
-        speak("Speak now...")
+        print("Speak now...")
         recognizer.pause_threshold = 1.0
         audio = recognizer.listen(source)
 
@@ -53,12 +54,12 @@ def input_audio():
 #     except Exception as e:
 #          speak(e)
 #          break
-def initialize():
-    while True:
-            query  = input_audio()
-            if "testing" in query:
-                 speak("Test compelete")
-            break
+# def initialize():
+#     while True:
+#             query  = input_audio()
+#             if "testing" in query:
+#                  speak("Test compelete")
+#             break
 
 cred = credentials.Certificate(r"C:\Users\Storm\After Hours(Python)\facial recognition\serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
@@ -95,12 +96,13 @@ def wishme(name):
     else:
          speak("Good Evening {name}")
 
-def functions():
-     while True:
-          query = input_audio()
-          #Add all functions here
-          
 
+llm = Ollama(model="phi")
+def beginAI():
+     while True:
+        prompt = input_audio()
+        response = llm.invoke(prompt)
+        speak(response)
 
 
 def find_encodings(imagelist):
@@ -116,35 +118,50 @@ file = open(r'C:\Users\Storm\After Hours(Python)\facial recognition\EncodeFile.p
 encodeListKnownWithIds = pickle.load(file)
 encodeListKnown, studentIds = encodeListKnownWithIds
 
-modeType = 0
-counter = 0
-id = 0
+# modeType = 0
+# counter = 0
+# id = 0
 
-while True:
-    success, img = cap.read()
+def face_check():
+    while True:
+        success, img = cap.read()
 
-    imgS = cv2.resize(img,(0, 0), None , 0.25, 0.25)
-    imgS = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        imgS = cv2.resize(img,(0, 0), None , 0.25, 0.25)
+        imgS = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-    faceCurFrame = frm.face_locations(imgS)
-    encodeCurrFrame = frm.face_encodings(imgS, faceCurFrame)
+        faceCurFrame = frm.face_locations(imgS)
+        encodeCurrFrame = frm.face_encodings(imgS, faceCurFrame)
 
 
-    bkground[162: 162+480, 55 : 55+640] = img #Cooridinates found by self, attaches the webcam to the window
-    bkground[44:44 + 633, 808 : 808 + 414] = image_in_mode[modeType]
-#     cv2.imshow("Vision" , img)
-        
-    for encodeFace, faceLoc in zip(encodeCurrFrame, faceCurFrame):
-          matches = frm.compare_faces(encodeListKnown, encodeFace)
-          Face_Distance = frm.face_distance(encodeListKnown, encodeFace)
+        # bkground[162: 162+480, 55 : 55+640] = img #Cooridinates found by self, attaches the webcam to the window
+        # bkground[44:44 + 633, 808 : 808 + 414] = image_in_mode[modeType]
+    #     cv2.imshow("Vision" , img)
+            
+        for encodeFace, faceLoc in zip(encodeCurrFrame, faceCurFrame):
+            matches = frm.compare_faces(encodeListKnown, encodeFace)
+            Face_Distance = frm.face_distance(encodeListKnown, encodeFace)
 
-          matchIndex = np.argmin(Face_Distance)
-         
-          if  not matches[matchIndex]:
-                studentInfo = db.reference(f'Students/{id}').get()
-                name = str(studentInfo['name'])
+            matchIndex = np.argmin(Face_Distance)
+            
+            if  not matches[matchIndex]:
+                    # studentInfo = db.reference(f'Students/{id}').get()
+                    speak('Unknown user detected')
+
+                    # speak(f"Good morning ")
+                    # initialize()
+            elif matches[matchIndex]:
+                speak("Known user detected")
+                studentInfo = db.reference(f'Students/{matchIndex}').get()
+                #    studentInfo1 =  db.reference(f'Students/{matchIndex-1}').get()
                 
-                # speak(f"Good morning ")
-                # initialize()
-          
-    
+                wishme(studentInfo['name'])
+                #    else:
+                #         print("LKJFLSDKJLSDKJFLKSDJasdfasdfasdfasdf")  
+        return True              
+        break
+
+face_check()
+if face_check():
+    face_check()
+    beginAI()
+

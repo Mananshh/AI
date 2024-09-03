@@ -1,64 +1,34 @@
-import firebase_admin
-from firebase_admin import credentials, firestore
-import face_recognition
-import cv2
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from time import sleep
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 
-# Initialize Firebase
-cred = credentials.Certificate(r"C:\Users\Storm\After Hours(Python)\facial recognition\serviceAccountKey.json")
-firebase_admin.initialize_app(cred, {
-    'databaseURL' :"https://facerecognition-17636-default-rtdb.firebaseio.com/",
-    'storageBucket': "facerecognition-17636.appspot.com"
-})
-db = firestore.client()
+Link = r"C:\Users\mrmil\OneDrive\Desktop\Jarvis4YouTube\voice.html"
+chrome_options = Options()
+user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.142.86 Safari/537.36"
+chrome_options.add_argument(f'user-agent={user_agent}')
+chrome_options.add_argument("--use-fake-ui-for-media-stream")
+chrome_options.add_argument("--use-fake-device-for-media-stream")
+chrome_options.add_argument("--headless=new")
+service = Service(ChromeDriverManager().install())
+driver = webdriver.Chrome(service=service, options=chrome_options)
+# driver.get(Link)
 
-# Load known faces and user IDs from Firebase
-def load_known_faces():
-    users_ref = db.collection('users')
-    docs = users_ref.stream()
-    known_face_encodings = []
-    known_user_ids = []
+def SpeechRecognitionModel():
+      driver.find_element(by=By.ID,value="start").click()
+      print("Listening...")
+      while True:
+            try:
+                  Text = driver.find_element(by=By.ID,value="output").text
+                  if Text:
+                        driver.find_element(by=By.ID,value="end").click()
+                        return Text
 
-    for doc in docs:
-        user_data = doc.to_dict()
-        face_encoding = user_data.get('face_encoding')  # Assuming face encodings are stored in Firebase
-        if face_encoding:
-            known_face_encodings.append(face_encoding)
-            known_user_ids.append(doc.id)
+                  else:
+                        sleep(0.333)
 
-    return known_face_encodings, known_user_ids
-
-known_face_encodings, known_user_ids = load_known_faces()
-
-# Recognize faces in real-time
-video_capture = cv2.VideoCapture(0)
-
-while True:
-    ret, frame = video_capture.read()
-    rgb_frame = frame[:, :, ::-1]
-
-    face_locations = face_recognition.face_locations(rgb_frame)
-    face_encodings = face_recognition.face_encodings(rgb_frame, face_locations)
-
-    for face_encoding in face_encodings:
-        matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
-        name = "Unknown"
-
-        if True in matches:
-            first_match_index = matches.index(True)
-            user_id = known_user_ids[first_match_index]
-
-            # Retrieve user data from Firebase
-            user_ref = db.collection('users').document(user_id)
-            user_data = user_ref.get().to_dict()
-            if user_data:
-                name = user_data.get('name')
-
-        print(f"Hello, {name}!")
-
-    # cv2.imshow('Video', frame)
-
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-video_capture.release()
-cv2.destroyAllWindows()
+            except:
+                  pass

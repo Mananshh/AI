@@ -1,28 +1,24 @@
 import sounddevice as sd
 import numpy as np
 
-threshold = 90
-Clap = False
+def clap_detected():
+    print("Clap Detected")
 
-def detect_clap(indata,frames,time,status):
-    global Clap
-    volume_norm = np.linalg.norm(indata) * 10
-    if volume_norm>threshold:
-        print("Clapped!")
-        Clap = True
+def listen_for_clap(threshold=0.5, samplerate=44100):
+    detected = False
 
-def Listen_for_claps():
-    with sd.InputStream(callback=detect_clap):
-        return sd.sleep(1000)
-    
-def MainClapExe():
+    def audio_callback(indata, frames, time, status):
+        nonlocal detected
+        volume_norm = np.linalg.norm(indata) * 10
+        if volume_norm > threshold:
+            detected = True
+            clap_detected()
+            raise sd.CallbackStop()  # Stop the stream when clap is detected
 
-    while True:
-        Listen_for_claps()
-        if Clap==True:
-            break
+    with sd.InputStream(callback=audio_callback, channels=1, samplerate=samplerate):
+        while not detected:
+            sd.sleep(100)
 
-        else:
-            pass
-
-MainClapExe()
+if __name__ == "__main__":
+    print("Listening for clap...")
+    listen_for_clap()

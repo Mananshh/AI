@@ -158,10 +158,27 @@ def face_check():
                 #    else:
                 #         print("LKJFLSDKJLSDKJFLKSDJasdfasdfasdfasdf")  
         return True              
-        break
+def clap_detected():
+    print("Clap Detected")
 
-face_check()
+def listen_for_clap(threshold=0.5, samplerate=44100):
+    detected = False
+
+    def audio_callback(indata, frames, time, status):
+        nonlocal detected
+        volume_norm = np.linalg.norm(indata) * 10
+        if volume_norm > threshold:
+            detected = True
+            clap_detected()
+            raise sd.CallbackStop() 
+
+
+    with sd.InputStream(callback=audio_callback, channels=1, samplerate=samplerate):
+        while not detected:
+            sd.sleep(100)
+
+listen_for_clap()
+speak("Greetings user")
+speak("Initializing face recognition")
 if face_check():
-    face_check()
-    beginAI()
-
+     beginAI()

@@ -1,8 +1,12 @@
-class Solution(object):
-    def twoSum(self, nums, target):
-        for i in range(len(nums)):
-           for j in range(i+1, len(nums)):
-            if nums[i] + nums[j] == target:
-                return [i, j]
-        return []
-        
+clap = True
+
+
+inrr =  int(input("TNEKN  "))
+if inrr == 1:
+    print("CONFIRMED ")
+    clap = False
+else:
+    print("FLKJDJKLSF ")
+
+
+print(clap)

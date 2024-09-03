@@ -2,9 +2,9 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
 
-cred = credentials.Certificate(r"C:\Users\Storm\After Hours(Python)\facial recognition\serviceAccountKey.json")
+cred = credentials.Certificate(r"add path to json file here")
 firebase_admin.initialize_app(cred,{
-    'databaseURL' :"https://facerecognition-17636-default-rtdb.firebaseio.com/"
+    'databaseURL' :"add path to database here"
 })
 
 ref = db.reference('Students')

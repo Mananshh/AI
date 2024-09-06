@@ -4,7 +4,7 @@ from firebase_admin import db
 
 cred = credentials.Certificate(r"C:\Users\Storm\After Hours(Python)\facial recognition\serviceAccountKey.json")
 firebase_admin.initialize_app(cred,{
-    'databaseURL' :"https://facerecognition-17636-default-rtdb.firebaseio.com/"
+    'databaseURL' :"https://facerec-810ae-default-rtdb.firebaseio.com/"
 })
 
 ref = db.reference('Students')

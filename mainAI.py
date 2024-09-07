@@ -290,7 +290,7 @@ def loadresponse(text):
     # speak(response_text)
     conversation_history += f"\nAI: {response_text}"
     
-    if "remember this" in text.lower():
+    if "remember this" in text:
         # Save the updated conversation history
         save_history(conversation_history)
     return (response_text)

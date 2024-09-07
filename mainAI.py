@@ -98,10 +98,17 @@ def input_audio():
 #                  speak("Test compelete")
 #             break
 
+<<<<<<< HEAD
 cred = credentials.Certificate(r"C:\Users\Storm\After Hours(Python)\facial recognition\serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
     'databaseURL' :"https://facerec-810ae-default-rtdb.firebaseio.com/",
     'storageBucket': "gs://facerec-810ae.appspot.com"
+=======
+cred = credentials.Certificate(r"Add path to your json file here(for google firebase)")
+firebase_admin.initialize_app(cred, {
+    'databaseURL' :"firebase database url",
+    'storageBucket': "storage url, firebase"
+>>>>>>> c767deb7dcd2cd99a896493ffc629e7549675e2f
 })
 '''
 The following adds the webacam to the function
@@ -143,7 +150,7 @@ def find_encodings(imagelist):
     return encodelist
 
 encodingListKnown = find_encodings(image_in_mode)
-file = open(r'C:\Users\Storm\After Hours(Python)\facial recognition\EncodeFile.p' , 'rb')
+file = open(r'Path to encode file opened in AddDataToDatabase.py' , 'rb')
 encodeListKnownWithIds = pickle.load(file)
 encodeListKnown, studentIds = encodeListKnownWithIds
 
@@ -289,7 +296,14 @@ def loadresponse(text):
     response_text = "".join(response_chunks)
     # speak(response_text)
     conversation_history += f"\nAI: {response_text}"
+<<<<<<< HEAD
     save_history(conversation_history)
+=======
+    
+    if "remember this" in text:
+        # Save the updated conversation history
+        save_history(conversation_history)
+>>>>>>> c767deb7dcd2cd99a896493ffc629e7549675e2f
     return (response_text)
 
 
@@ -310,4 +324,7 @@ if face_check():
         mainfn()            
 else:
     speak("Error reading the face, this doesn't usually happen, try again")
+<<<<<<< HEAD
 
+=======
+>>>>>>> c767deb7dcd2cd99a896493ffc629e7549675e2f

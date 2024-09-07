@@ -37,7 +37,7 @@ def cooler_print(message):
     for char in message:
         sys.stdout.write(char)
         sys.stdout.flush()
-        time.sleep(0.1)  # Adjust the sleep duration for the animation speed
+        time.sleep(0.05)  # Adjust the sleep duration for the animation speed
     print()
 
 
@@ -66,7 +66,8 @@ def speak(text):
 def input_audio():
     recognizer = sr.Recognizer()
     with sr.Microphone() as source:
-        print("Speak now...")
+        print("Listening")
+        recognizer.energy_threshold = 450
         recognizer.pause_threshold = 1.0
         audio = recognizer.listen(source)
 
@@ -97,10 +98,10 @@ def input_audio():
 #                  speak("Test compelete")
 #             break
 
-cred = credentials.Certificate(r"Enter path to json file here)
+cred = credentials.Certificate(r"C:\Users\Storm\After Hours(Python)\facial recognition\serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
-    'databaseURL' :"https://facerecognition-17636-default-rtdb.firebaseio.com/",
-    'storageBucket': "facerecognition-17636.appspot.com"
+    'databaseURL' :"https://facerec-810ae-default-rtdb.firebaseio.com/",
+    'storageBucket': "gs://facerec-810ae.appspot.com"
 })
 '''
 The following adds the webacam to the function
@@ -183,12 +184,13 @@ def face_check():
                 #    studentInfo1 =  db.reference(f'Students/{matchIndex-1}').get()
                 name = studentInfo['name']
                 wishme(name)
+                return True
                 #    else:
                 #         print("LKJFLSDKJLSDKJFLKSDJasdfasdfasdfasdf")  
-        return True              
+        break             
 
 
-def listen_for_clap(threshold=0.5, samplerate=44100):
+def listen_for_clap(threshold=0.75, samplerate=44100):
     detected = False
 
     def audio_callback(indata, frames, time, status):
@@ -267,10 +269,10 @@ ai = brain(
     history_offset=10250,  # Use a high context window model
     act=None,
     model="llama3-70b",
-    system="You are a Helpful AI"
+    system="GPT Style"
 )
 
-def beginAI(text):
+def loadresponse(text):
     conversation_history = load_history()
     # Append the prompt to the conversation history
     conversation_history += f"\nUser: {text}"
@@ -285,23 +287,32 @@ def beginAI(text):
         # print(chunk, end="", flush=True) 
     # Combine the response chunks into a single response
     response_text = "".join(response_chunks)
-    speak(response_text)
+    # speak(response_text)
     conversation_history += f"\nAI: {response_text}"
     
     if "remember this" in text.lower():
         # Save the updated conversation history
         save_history(conversation_history)
-    speak (response_text)
+    return (response_text)
 
 
-
+identify = False
+def mainfn():
+    while identify:
+        query = input_audio()
+        response = loadresponse(query)
+        speak(response)
+        break
 print("-----------------------------ON------------------------------------------")
 listen_for_clap()
 speak("Greetings user")
 speak("Initializing face recognition")
 if face_check():
-    while True:
-        query = input_audio()
-        beginAI(query)
+    identify = True
+    while identify:
+        mainfn()            
 else:
-    print()
+    speak("Error reading the face, this doesn't usually happen, try again")
+
+
+

@@ -128,7 +128,7 @@ def wishme(name):
     hour = int(datetime.datetime.now().hour)
     if 0<= hour < 12:
          speak(f"Good Evening {name}")
-    elif 12<= hour <= 18:
+    elif 12<= hour <= 15:
          speak("Good Afternoon {name}")
     else:
          speak("Good Evening {name}")
@@ -313,6 +313,4 @@ if face_check():
         mainfn()            
 else:
     speak("Error reading the face, this doesn't usually happen, try again")
-
-
 

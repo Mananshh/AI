@@ -7,7 +7,7 @@ import cvzone
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import db
-from firebase_admin import  storage
+# from firebase_admin import  storage
 import speech_recognition as sr
 import sys
 import threading
@@ -289,10 +289,7 @@ def loadresponse(text):
     response_text = "".join(response_chunks)
     # speak(response_text)
     conversation_history += f"\nAI: {response_text}"
-    
-    if "remember this" in text:
-        # Save the updated conversation history
-        save_history(conversation_history)
+    save_history(conversation_history)
     return (response_text)
 
 

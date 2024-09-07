@@ -146,3 +146,5 @@ To use this script:
 4. Follow the menu prompts to interact with the Event Assistant
 
 Remember to ensure you have write permissions in the directory where you save the JSON file containing the events.
+User: how are you today
+AI: I'm doing well, thank you for asking! I'm a large language model, so I don't have emotions or feelings like humans do, but I'm always happy to chat with you and help with any questions or topics you'd like to discuss. It's great to see that you're interested in modifying the EventAssistant class to update recent events and perform tasks. If you have any more questions or need further assistance, feel free to ask! How about you, how's your day going so far?

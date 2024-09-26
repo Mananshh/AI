@@ -363,7 +363,7 @@ import os
         
     # return answer
 
-os.environ["GROQ_API_KEY"] = "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"
+os.environ["GROQ_API_KEY"] = "Enter you api here after setting it as environment variable"
 def custom_str(text, end=""):
     result = str(text) + end
     return result

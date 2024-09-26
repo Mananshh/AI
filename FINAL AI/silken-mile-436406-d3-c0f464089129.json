@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "silken-mile-436406-d3",
+  "private_key_id": "c0f464089129645a7532b4dd82a6c54a5e44fe46",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCRX3ZoymGHif/6\nde1w/x+9qqOGqAeoe+MlTOOIOsYi1TQsji2RTIBGuJy6RdIYzgHTIs1YyNvxQ2bk\nrMbnvHg3fsO8IXsFDAMhRxyVVHE5iO+DFuOwBzpPS80oLvez0/zSKwoMIp2zUln3\nikggD6d0k6PIRevRmeRGj4fNpTM1uv/hZJ/7bCf/fGOUN1SbcgtmNzSZ03GRujNB\nWHUvhkV+5MCxM3vEfgGQLYLFD+yP/q/sqkNLH/wIRx+G/ud5IJRUYvHaQRgZ5qQr\nGLf7TiO3dxizAEDqw62Vvtak+iOZqkr2l3KdUoSGXpRjK0A6MXNof9zdC24zb7K8\nfptBdUZfAgMBAAECggEABGBobrPFGSLQEyGtNZ72BCyDXtKD5IILNgNwT1Gzcbda\nuHx03trtl0jOyj34qT31nf5FZvF+dhn1jHQgvKlsMqxn8Z2jUOT4hScgbB3VT+3Y\nhek0VjIwnw0Wx7fB1B/7/mcoT6tUPHDlbblCGoSOIeX24xGcuEpW2MKJk4VwU9wE\n1QGKcH/zGQU60pkGUvVlPMqE0QpotNp38aQIeWFmDLfCMbtDUcvGhacLVw0E3Kkx\nkrBX9+F2V7vEGo7ji7D+93d4NqOyksyla+MQTf8CILteCGrVDDMOHDmeEPOF+b8O\ndEBLA5jlEJEQINGWUdVyh8Z74Bfh+GoXoaG5n+OcYQKBgQDBUSqOFAcIcyWre9Hu\n+fEV1ILjCsuCpP10pB/4Kz129oxQ3xT2yZnJm7+kSnhpxrczsbdjAfdysLP8tYBs\nbOug6rwyZlmnp0fhj69NM+TOWLAI/NUtchI41GsEBU513HCXNFVe5F+83HxBj1aP\ncHzYPLVXXeQQt1T+GkRBb7nyPwKBgQDAgo4PXH/wiGk4q0pl3vRFx5iIBgYdFLwQ\ngcoFmEzUsA8N2RD39Twwj7FgAWdklQMtu8rHLAvPwzyv8wU9Q0eKvWA8PAtwNdOL\n0f6PJq2OwKbFLX0yWO15jGAIHxYAkeSC01afQlAXSmbdWyMiVboCIENnye82Soon\nNyHjkWdj4QKBgQCXWeLFZeyzsuM1RTXxsgIMo1ruQw9ec6p0XeMhu0jeEN1+m4mg\nRep/q874480uk4Pvlx4LCAkh5DKmkbvAJ+67B8zccMGUvyVJ9eK7wPtMiqcYAkss\nz3hwwe4fMcBiCnqkBzcnmglSphUqhvywRNOZwL4BbuMWK1MBtrLlwIGGpQKBgA1J\n9dyBmiNUh07uJBicJ2iZuqHJKKrhP4o0K2nvdX5JGQDvtwgm2ZzQjoH+FtEOqEWD\n7R+KntYcuBe9QuNTvaCKKhZ+XpvEW3IPcO8Y0GpGSjzaQwYytVHqqsZkvvQTHh8Z\nz6T2wuiYrjkhjW9VU53J9F05x1WMF7VVTPWUl/qBAoGBALlVuY2KD0WvHAxQlmlL\nnFOWQjn6Ok8SGzPJQnlnIpmtylwRtXJhNe1BrF6HPXcMNfOlUZSmr4I2tshHAcKQ\nDR+nUnN982cn83jtMA0iSmO4h9+f8/aGuej8MKN4SlW2RQJLYNcqaDH+poJvOZhX\nd7ZddkS3u77P3CGOney2DPFi\n-----END PRIVATE KEY-----\n",
+  "client_email": "gemini-testing@silken-mile-436406-d3.iam.gserviceaccount.com",
+  "client_id": "106944073525620142113",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/gemini-testing%40silken-mile-436406-d3.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

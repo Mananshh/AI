@@ -1,0 +1,8 @@
+You: How are you, can you tell me a joke?
+Bot: 
+You: How are you?
+Bot: 
+You: python -u "c:\Users\Storm\After Hours(Python)\Other stuff\rough2.py"
+Bot: uature
+You: How are you?
+Bot: 

@@ -20,9 +20,10 @@ from typing import Union
 import sounddevice as sd
 from webscout import LLAMA3 as brain
 from rich import print
+import json
 # from transformers import GPT2LMHeadModel, GPT2Tokenizer
 # from langchain_community.llms import Ollama
-def generate_audio(message: str,voice : str = "en-US-Wavenet-D"):
+def generate_audio(message: str,voice : str = "en-US-Standard-B"): # can also use en-US-Standard-B, good alternative
     url: str = f"https://api.streamelements.com/kappa/v2/speech?voice={voice}&text={{{message}}}"
 
     headers = {'User-Agent':'Mozilla/5.0(Maciontosh;intel Mac OS X 10_15_7)AppleWebKit/537.36(KHTML,like Gecoko)Chrome/119.0.0.0 Safari/537.36'}
@@ -41,8 +42,8 @@ def cooler_print(message):
     print()
 
 
-def Co_speak(message: str, voice: str = "en-US-Wavenet-D", folder: str = "", extension: str = ".mp3") -> Union[None,str]:
-    try:
+def Co_speak(message: str, voice: str = "en-US-Standard-B", folder: str = "", extension: str = ".mp3") -> Union[None,str]:
+    try: #Can also use en-US-Standard-B, good alternative
         result_content = generate_audio(message,voice)
         file_path = os.path.join(folder,f"{voice}{extension}")
         with open(file_path,"wb") as file:
@@ -98,7 +99,7 @@ def input_audio():
 #                  speak("Test compelete")
 #             break
 
-cred = credentials.Certificate(r"C:\Users\Storm\After Hours(Python)\facial recognition\serviceAccountKey.json")
+cred = credentials.Certificate(r"C:\Users\Storm\After Hours(Python)\FINAL AI\facial recognition\serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
     'databaseURL' :"https://facerec-810ae-default-rtdb.firebaseio.com/",
     'storageBucket': "gs://facerec-810ae.appspot.com"
@@ -110,9 +111,9 @@ cap = cv2.VideoCapture(0)
 cap.set(3 ,640) 
 cap.set(4,480)
 
-bkground = cv2.imread(r'C:\Users\Storm\After Hours(Python)\FaceRec\Resources\Background.png')
+bkground = cv2.imread(r"C:\Users\Storm\After Hours(Python)\FINAL AI\FaceRec\Resources\Background.png")
 
-fmodepath = r'C:\Users\Storm\After Hours(Python)\FaceRec\Resources\Modes'
+fmodepath = r'C:\Users\Storm\After Hours(Python)\FINAL AI\FaceRec\Resources\Modes'
 modepath = os.listdir(fmodepath) #This returns 1,png 2.png and so on
 image_in_mode = []
 roll_nos = []
@@ -143,13 +144,15 @@ def find_encodings(imagelist):
     return encodelist
 
 encodingListKnown = find_encodings(image_in_mode)
-file = open(r'C:\Users\Storm\After Hours(Python)\facial recognition\EncodeFile.p' , 'rb')
+file = open(r'C:\Users\Storm\After Hours(Python)\FINAL AI\FaceRec\EncodeFile.p' , 'rb')
 encodeListKnownWithIds = pickle.load(file)
 encodeListKnown, studentIds = encodeListKnownWithIds
 
 # modeType = 0
 # counter = 0
 # id = 0
+
+
 
 def face_check():
     while True:
@@ -175,6 +178,7 @@ def face_check():
             if  not matches[matchIndex]:
                     # studentInfo = db.reference(f'Students/{id}').get()
                     speak('Unknown user detected')
+                    continue
 
                     # speak(f"Good morning ")
                     # initialize()
@@ -182,19 +186,138 @@ def face_check():
                 speak("Known user detected")
                 studentInfo = db.reference(f'Students/{matchIndex}').get()
                 #    studentInfo1 =  db.reference(f'Students/{matchIndex-1}').get()
-                # name = studentInfo['name']
-                # wishme(name)
-                print(matchIndex)
-                print(studentInfo)
-                print(studentInfo['name'])
+                print("USER INFO:", studentInfo)
+                name = studentInfo['name']
+                wishme(name)
                 return True
+            break
                 #    else:
                 #         print("LKJFLSDKJLSDKJFLKSDJasdfasdfasdfasdf")  
-        break     
+                     
 
+
+def listen_for_clap(threshold=0.75, samplerate=44100):
+    detected = False
+
+    def audio_callback(indata, frames, time, status):
+        nonlocal detected
+        volume_norm = np.linalg.norm(indata) * 10
+        if volume_norm > threshold:
+            detected = True
+            print("Activating......")
+            raise sd.CallbackStop() 
+
+
+    with sd.InputStream(callback=audio_callback, channels=1, samplerate=samplerate):
+        while not detected:
+            sd.sleep(100)
+
+
+def save_to_backup(new_data):
+    with open(r'C:\Users\Storm\After Hours(Python)\FINAL AI\conversations.txt', 'w') as f:
+        json.dump(new_data, f, indent=4)
+
+# from webscout import PhindSearch as brain
+# #Phind search will give more tech, coding realted doubts for you to answer, Llama gives answers to more practical questions
+# from rich import print
+# from webscout.AIutel import RawDog
+# from mainAI import speak
+# from mainAI import cooler_print
+
+# rawdog = RawDog()
+# intro_prompt = rawdog.intro_prompt
+
+# ai = brain(
+#     is_conversation=True,
+#     max_tokens=800,
+#     timeout=30,
+#     intro=intro_prompt,
+#     filepath=r"C:\Users\Storm\After Hours(Python)\conversations.txt",
+#     update_file=True,
+#     proxies={},
+#     history_offset=10250,
+#     act=None,
+# )
+
+# def testingAI(text):
+#     response = ai.chat(text)
+#     rawdog_feedback = rawdog.main(response)
+#     if rawdog_feedback:
+#         ai.chat(rawdog_feedback)
+#     speak(response)
+#     return response
+
+from webscout import LLAMA3 as brain
+from rich import print
+import os
+
+# Define file paths
+history_file = r"C:\Users\Storm\After Hours(Python)\FINAL AI\conversations.txt"
+
+def load_history():
+    if os.path.exists(history_file):
+        with open(history_file, 'r') as file:
+            return file.read()
+    return ""
+
+def save_history(history):
+    with open(history_file, 'w') as file:
+        file.write(history)
+
+# Load existing history
+conversation_history = load_history()
+
+# Initialize the AI
+ai = brain(
+    is_conversation=True,  # AI will remember conversations
+    max_tokens=800,
+    timeout=30,
+    intro=None,
+    filepath=None,  # Memory file not used as we handle it manually
+    update_file=False,  # No need to update the memory file
+    proxies={},
+    history_offset=10250,  # Use a high context window model
+    act=None,
+    model="llama3-70b",
+    system="Humorous AI that adds a few jokes here and there"
+)
+
+def loadresponse(text):
+    conversation_history = load_history()
+    # Append the prompt to the conversation history
+    conversation_history += f"\nUser: {text}"
+    
+    # Generate the full prompt including the conversation history
+    full_prompt = conversation_history + "\nAI:"
+    
+    # Get the AI's response
+    response_chunks = []
+    for chunk in ai.chat(full_prompt):
+        response_chunks.append(chunk)
+        # print(chunk, end="", flush=True) 
+    # Combine the response chunks into a single response
+    response_text = "".join(response_chunks)
+    # speak(response_text)
+    conversation_history += f"\nAI: {response_text}"
+    save_to_backup(conversation_history)
+    return (response_text)
+
+
+identify = True
+def mainfn():
+    while identify:
+        query = input_audio()
+        # query = input("Enter: ")
+        response = loadresponse(query)
+        speak(response)
+        break
+print("-----------------------------ON------------------------------------------")
+listen_for_clap()
+cooler_print("Jarvis is on")
+speak("Initializing face recognition")
 if face_check():
-     while True:
-        inp = input("Enter ")
-        if inp == "E":
-            print("TT")
-            break
+    identify = True
+    while identify:
+        mainfn()          
+else:
+    pass  

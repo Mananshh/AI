@@ -108,8 +108,8 @@ def input_audio():
 
 cred = credentials.Certificate(r"C:\Users\Storm\After Hours(Python)\FINAL AI\facial recognition\serviceAccountKey.json")
 firebase_admin.initialize_app(cred, {
-    'databaseURL' :"https://facerec-810ae-default-rtdb.firebaseio.com/",
-    'storageBucket': "gs://facerec-810ae.appspot.com"
+    'databaseURL' :"Link to your firebase dataset",
+    'storageBucket': "link to your storage bucket dataset"
 })
 '''
 The following adds the webacam to the function

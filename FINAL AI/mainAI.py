@@ -347,8 +347,7 @@ conversation_history = load_history()
 import google.generativeai as genai
 import os
 
-
-# genai.configure(api_key="AIzaSyC-U39CuWf_G3F_9IswOLy3XcSFPPSOU_8")
+# genai.configure(api_key="add api key here")
 # generation_config = {"temperature": 0.9, "top_p":1 , "top_k":1, "max_output_tokens":2048}
 
 # model = genai.GenerativeModel("gemini-pro", generation_config= generation_config)
